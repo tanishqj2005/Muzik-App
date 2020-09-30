@@ -1,12 +1,13 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import HomeScreen from "../screens/Home";
 import PlayerScreen from "../screens/Player";
 import UserScreen from "../screens/User";
+import AuthScreen from "../screens/Auth";
 
 const MuzikNavigator = createStackNavigator(
   {
@@ -20,8 +21,19 @@ const MuzikNavigator = createStackNavigator(
     mode: "modal",
   }
 );
+const AuthNavigator = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  {
+    defaultNavigationOptions: {
+      headerTintColor: "white",
+    },
+    mode: "modal",
+  }
+);
 
-const MainNavigator = createMaterialBottomTabNavigator(
+const MainTabNavigator = createMaterialBottomTabNavigator(
   {
     Muzik: {
       screen: MuzikNavigator,
@@ -58,5 +70,10 @@ const MainNavigator = createMaterialBottomTabNavigator(
     },
   }
 );
+
+const MainNavigator = createSwitchNavigator({
+  Auth: AuthNavigator,
+  MuzikMain: MainTabNavigator,
+});
 
 export default createAppContainer(MainNavigator);
