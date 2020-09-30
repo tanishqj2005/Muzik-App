@@ -4,6 +4,8 @@ import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const Home = (props) => {
+  const user = props.navigation.getParam('userInfo');
+  console.log(user);
   return (
     <View style={styles.screen}>
       <LinearGradient
