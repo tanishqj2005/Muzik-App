@@ -56,9 +56,9 @@ const MainTabNavigator = createMaterialBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: <Text>User</Text>,
         tabBarIcon: (tabInfo) => {
-          return <Entypo name="user" size={25} color={tabInfo.tintColor} />;
+          return <Entypo name="user" size={20} color={tabInfo.tintColor} />;
         },
-        tabBarColor: "#370757",
+        tabBarColor: "#000300",
       },
     },
   },

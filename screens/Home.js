@@ -4,12 +4,10 @@ import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const Home = (props) => {
-  const user = props.navigation.getParam('userInfo');
-  console.log(user);
   return (
     <View style={styles.screen}>
       <LinearGradient
-        colors={["#000","#262e40","#112757"]}
+        colors={["#e9ed6d", "#6d7013", "#1b1c01"]}
         style={styles.linearGradient}
       >
         <StatusBar backgroundColor="black" />

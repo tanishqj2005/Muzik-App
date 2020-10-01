@@ -2,19 +2,29 @@ import React, { useState } from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
 import * as Google from "expo-google-app-auth";
 import { LinearGradient } from "expo-linear-gradient";
+import { authenticate } from "../store/actions/auth";
+import { useDispatch } from "react-redux";
+import secrets from "../secrets";
 
 export default function Auth({ navigation }) {
   const [isProgress, setIsProgress] = useState(false);
+  const dispatch = useDispatch();
   async function signInWithGoogleAsync() {
     setIsProgress(true);
     try {
       const result = await Google.logInAsync({
-        androidClientId:
-          "473889804939-gk70migvliar904co65bc0l9al7ijlau.apps.googleusercontent.com",
+        androidClientId: secrets.androidClientId,
         scopes: ["profile", "email"],
       });
       if (result.type === "success") {
-        navigation.setParams({ userInfo: result });
+        setIsProgress(false);
+        dispatch(
+          authenticate(
+            result.accessToken,
+            result.user.givenName,
+            result.user.photoUrl
+          )
+        );
         navigation.navigate("MuzikMain", {
           userInfo: result,
         });
@@ -31,7 +41,7 @@ export default function Auth({ navigation }) {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#000", "#7d0c24", "#b01e3d"]}
+        colors={["#000", "#565673", "#000"]}
         style={styles.linearGradient}
       >
         <View style={styles.textStart}>
@@ -59,6 +69,7 @@ export default function Auth({ navigation }) {
             title="Signin With Google"
             onPress={signInWithGoogleAsync}
             disabled={isProgress}
+            color="#a30d35"
           />
         </View>
       </LinearGradient>
