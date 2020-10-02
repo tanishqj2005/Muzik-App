@@ -5,9 +5,11 @@ import MuzikNavigator from "./navigation/Navigator";
 import ReduxThunk from "redux-thunk";
 
 import AuthReducer from "./store/reducers/auth";
+import PlaylistReducer from "./store/reducers/playlist";
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
+  playlist: PlaylistReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

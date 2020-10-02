@@ -6,14 +6,17 @@ import {
   Image,
   ScrollView,
   Button,
+  FlatList
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector, useDispatch } from "react-redux";
+import PlaylistItem from "../components/playlistItem";
 import { logout } from "../store/actions/auth";
 
 const User = (props) => {
   const userName = useSelector((state) => state.auth.userName);
   const userPhotoUri = useSelector((state) => state.auth.userPhoto);
+  const likedSongs = useSelector((state) => state.playlist.likedSongs);
   const dispatch = useDispatch();
   const logoutHandler = () => {
     dispatch(logout());
@@ -74,6 +77,18 @@ const User = (props) => {
               Songs you like:
             </Text>
           </View>
+          <FlatList
+            style={styles.playlistList}
+            data={likedSongs}
+            keyExtractor={(item) => item.id}
+            renderItem={(itemData) => (
+              <PlaylistItem
+                artwork={itemData.item.artwork}
+                artist={itemData.item.artist}
+                title={itemData.item.title}
+              />
+            )}
+          />
         </ScrollView>
       </LinearGradient>
     </View>
@@ -155,6 +170,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     borderBottomColor: "white",
     borderBottomWidth: 2,
+  },
+  playlistList: {
+    width: "100%",
+    height: 220,
+    flexDirection: "column",
+    marginTop: 30,
   },
 });
 

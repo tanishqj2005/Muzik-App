@@ -1,9 +1,22 @@
-import React from "react";
-import { View, Text, StyleSheet, Button, FlatList } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useDispatch, useSelector } from "react-redux";
+import PlaylistItem from "../components/playlistItem";
+import Play from "../components/Icons/play";
 
 const Home = (props) => {
+  const dispatch = useDispatch();
+  const [selectedPlaylist, setSelectedPlaylist] = useState(1);
+  const playlist = useSelector((state) => state.playlist.playlist);
+  const songs = playlist.filter(
+    (playlistitem) => playlistitem.id === selectedPlaylist
+  )[0].items;
+  const allSounds = useSelector((state) => state.playlist.sounds);
+  const sounds = allSounds.filter(
+    (soundObj) => songs.findIndex((song) => song === soundObj.id) !== -1
+  );
   return (
     <View style={styles.screen}>
       <LinearGradient
@@ -42,21 +55,17 @@ const Home = (props) => {
             style={{ flex: 1 }}
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={[
-              { id: 0, title: "Road" },
-              { id: 1, title: "Pop" },
-              { id: 2, title: "Rock" },
-              { id: 3, title: "Rock" },
-              { id: 5, title: "Rock" },
-            ]}
+            data={playlist}
             keyExtractor={(item) => item.id}
             renderItem={(itemData) => (
               <Text
+                onPress={() => setSelectedPlaylist(itemData.item.id)}
                 style={{
-                  marginHorizontal: 10,
-                  color: "white",
+                  marginHorizontal: 25,
+                  color:
+                    itemData.item.id === selectedPlaylist ? "white" : "#676e69",
                   textAlign: "center",
-                  fontSize:28,
+                  fontSize: 28,
                 }}
               >
                 {itemData.item.title}
@@ -64,11 +73,17 @@ const Home = (props) => {
             )}
           />
         </View>
-
-        <Button
-          title="Player"
-          onPress={() => props.navigation.navigate("PlayerScreen")}
+        <FlatList
+          style={styles.playlistList}
+          data={sounds}
+          keyExtractor={(item) => item.id}
+          renderItem={(itemData) => (
+            <PlaylistItem artwork={itemData.item.artwork} artist={itemData.item.artist} title={itemData.item.title}/>
+          )}
         />
+        <View style={styles.play}>
+          <Play/>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -88,6 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomColor: "white",
     borderBottomWidth: 2,
+    paddingBottom: 15,
   },
   titleContainer: {
     height: 80,
@@ -113,7 +129,19 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal:15,
+    paddingHorizontal: 15,
+  },
+  playlistList: {
+    width: "100%",
+    height: 10,
+    flexDirection: "column",
+    marginTop: 30,
+  },
+  play: {
+    width: 70,
+    height: 70,
+    padding: 9,
+    paddingLeft: 20,
   },
 });
 

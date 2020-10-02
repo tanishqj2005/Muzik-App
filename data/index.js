@@ -33,4 +33,9 @@ export const playlist = [
     title: "Road",
     items: [1, 2, 3],
   },
+  {
+    id: 3,
+    title: "Soft",
+    items: [1, 2],
+  },
 ];

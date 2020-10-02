@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Button, Text, StyleSheet } from "react-native";
 import * as Google from "expo-google-app-auth";
 import { LinearGradient } from "expo-linear-gradient";
 import { authenticate } from "../store/actions/auth";
 import { useDispatch } from "react-redux";
 import secrets from "../secrets";
+import { initialize } from "../store/actions/playlist";
 
 export default function Auth({ navigation }) {
   const [isProgress, setIsProgress] = useState(false);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(initialize());
+  }, []);
   async function signInWithGoogleAsync() {
     setIsProgress(true);
     try {
