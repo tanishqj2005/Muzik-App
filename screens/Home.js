@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistItem from "../components/playlistItem";
-import Play from "../components/Icons/play";
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -65,7 +64,7 @@ const Home = (props) => {
                   color:
                     itemData.item.id === selectedPlaylist ? "white" : "#676e69",
                   textAlign: "center",
-                  fontSize: 28,
+                  fontSize: 23,
                 }}
               >
                 {itemData.item.title}
@@ -82,7 +81,7 @@ const Home = (props) => {
           )}
         />
         <View style={styles.play}>
-          <Play/>
+          <Button title="Play" color="#e6e612" onPress={() => props.navigation.navigate('PlayerScreen')}/>
         </View>
       </LinearGradient>
     </View>
@@ -133,15 +132,14 @@ const styles = StyleSheet.create({
   },
   playlistList: {
     width: "100%",
-    height: 10,
+    height: 50,
     flexDirection: "column",
     marginTop: 30,
   },
   play: {
-    width: 70,
-    height: 70,
-    padding: 9,
-    paddingLeft: 20,
+    width: 80,
+    height: 80,
+    bottom:-30
   },
 });
 

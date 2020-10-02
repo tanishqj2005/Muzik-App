@@ -1,41 +1,50 @@
 export const sounds = [
   {
     id: 1,
-    title: "OneRepublic",
-    artist: "Counting Stars",
-    source: require("./sounds/countingstars.mp3"),
-    artwork: require("./artworks/countingstars.jpg"),
+    title: "Back to December",
+    artist: "Taylor Swift", 
+    artwork: require("./artworks/backToDecember.png"),
   },
   {
     id: 2,
-    title: "Riptide",
-    artist: "Vance Joy",
-    source: require("./sounds/riptide.mp3"),
-    artwork: require("./artworks/riptide.jpg"),
+    title: "Guzarish",
+    artist: "Javed Ali",
+    artwork: require("./artworks/guzarish.png"),
   },
   {
     id: 3,
-    title: "Violin Sonata No. 2 in A minor BWV.1003",
-    artist: "Johann Sebastian Bach",
-    source: require("./sounds/violinsonata.mp3"),
-    artwork: require("./artworks/violinsonata.jpg"),
+    title: "Perfect",
+    artist: "Ed Sheeran",
+    artwork: require("./artworks/perfect.png"),
+  },
+  {
+    id: 4,
+    title: "Roop Tera Mastana",
+    artist: "Sanam",
+    artwork: require("./artworks/roopTeraMastana.png"),
+  },
+  {
+    id: 5,
+    title: "Time",
+    artist: "Pink Floyd",
+    artwork: require("./artworks/time.png"),
   },
 ];
 
 export const playlist = [
   {
     id: 1,
-    title: "Pop",
-    items: [1, 3],
+    title: "Bollywood",
+    items: [2, 4],
   },
   {
     id: 2,
-    title: "Road",
-    items: [1, 2, 3],
+    title: "English",
+    items: [1, 3, 5],
   },
   {
     id: 3,
-    title: "Soft",
-    items: [1, 2],
+    title: "Love",
+    items: [1, 2, 3, 4],
   },
 ];
