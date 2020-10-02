@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, FlatList } from "react-native";
 import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -36,6 +36,33 @@ const Home = (props) => {
           >
             All Playlists
           </Text>
+        </View>
+        <View style={styles.playlistContainer}>
+          <FlatList
+            style={{ flex: 1 }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={[
+              { id: 0, title: "Road" },
+              { id: 1, title: "Pop" },
+              { id: 2, title: "Rock" },
+              { id: 3, title: "Rock" },
+              { id: 5, title: "Rock" },
+            ]}
+            keyExtractor={(item) => item.id}
+            renderItem={(itemData) => (
+              <Text
+                style={{
+                  marginHorizontal: 10,
+                  color: "white",
+                  textAlign: "center",
+                  fontSize:28,
+                }}
+              >
+                {itemData.item.title}
+              </Text>
+            )}
+          />
         </View>
 
         <Button
@@ -80,6 +107,13 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginTop: 10,
     marginBottom: 20,
+  },
+  playlistContainer: {
+    height: 75,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal:15,
   },
 });
 
