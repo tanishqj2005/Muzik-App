@@ -38,17 +38,17 @@ const MainTabNavigator = createMaterialBottomTabNavigator(
     Muzik: {
       screen: MuzikNavigator,
       navigationOptions: {
-        tabBarLabel: <Text>Music</Text>,
+        tabBarLabel: <Text>Muzik</Text>,
         tabBarIcon: (tabInfo) => {
           return (
             <Ionicons
               name="ios-musical-note"
-              size={25}
+              size={20}
               color={tabInfo.tintColor}
             />
           );
         },
-        tabBarColor: "#0f0942",
+        tabBarColor: "#1a1a1c",
       },
     },
     User: {
@@ -58,7 +58,7 @@ const MainTabNavigator = createMaterialBottomTabNavigator(
         tabBarIcon: (tabInfo) => {
           return <Entypo name="user" size={20} color={tabInfo.tintColor} />;
         },
-        tabBarColor: "#000300",
+        tabBarColor: "#1a1a1c",
       },
     },
   },

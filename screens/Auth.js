@@ -41,7 +41,7 @@ export default function Auth({ navigation }) {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["#000", "#565673", "#000"]}
+        colors={["#000", "#000", "#383736"]}
         style={styles.linearGradient}
       >
         <View style={styles.textStart}>
@@ -69,7 +69,7 @@ export default function Auth({ navigation }) {
             title="Signin With Google"
             onPress={signInWithGoogleAsync}
             disabled={isProgress}
-            color="#a30d35"
+            color="#085c19"
           />
         </View>
       </LinearGradient>

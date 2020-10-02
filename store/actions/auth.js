@@ -21,3 +21,12 @@ export const authenticate = (token, userName, userPhoto) => {
     });
   };
 };
+
+export const logout = () => {
+  return async (dispatch) => {
+    await AsyncStorage.removeItem("userDataMuzikApp");
+    dispatch({
+      type: LOGOUT,
+    });
+  };
+};

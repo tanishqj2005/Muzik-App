@@ -1,17 +1,33 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Button,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/actions/auth";
 
 const User = (props) => {
   const userName = useSelector((state) => state.auth.userName);
   const userPhotoUri = useSelector((state) => state.auth.userPhoto);
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    dispatch(logout());
+    props.navigation.navigate("Auth");
+  };
   return (
     <View style={styles.screen}>
       <LinearGradient
         colors={["#000", "#262e40", "#112757"]}
         style={styles.linearGradient}
       >
+        <View style={styles.button}>
+          <Button title="Logout" onPress={logoutHandler} color="#562bff" />
+        </View>
         <View style={styles.imgBox}>
           <View style={styles.imgContainer}>
             <Image
@@ -31,14 +47,19 @@ const User = (props) => {
         >
           <View style={styles.welcomeContainer}>
             <Text
+              numberOfLines={2}
               style={{
                 color: "#fff",
                 marginBottom: 10,
-                fontSize: 61,
+                fontSize: 40,
                 fontWeight: "900",
+                textAlign: "center",
               }}
             >
-              Hi, <Text style={{ color: "#8ceb67" }}>{userName}!</Text>
+              Hi,{" "}
+              <Text style={{ color: "#8ceb67", textAlign: "center" }}>
+                {userName} !
+              </Text>
             </Text>
           </View>
           <View style={styles.likeContainer}>
@@ -46,7 +67,7 @@ const User = (props) => {
               style={{
                 color: "#e9f032",
                 marginBottom: 10,
-                fontSize: 38,
+                fontSize: 33,
                 fontWeight: "200",
               }}
             >
@@ -77,15 +98,30 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
   },
+  button: {
+    width: 120,
+    height: 68,
+    marginTop: 20,
+    marginLeft: 20,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    justifyContent: "center",
+    padding: 10,
+    borderColor: "white",
+    borderWidth: 2,
+    borderRadius: 9,
+  },
   welcomeContainer: {
-    height: 80,
+    height: 120,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     borderBottomColor: "white",
     borderBottomWidth: 1,
     width: "100%",
-    paddingBottom: 20,
+    paddingBottom: 10,
+    textAlign: "center",
   },
   likeContainer: {
     height: 60,
@@ -96,6 +132,7 @@ const styles = StyleSheet.create({
   imgContainer: {
     position: "absolute",
     top: 0,
+    right: 0,
     marginTop: 10,
     marginRight: 10,
     padding: 15,

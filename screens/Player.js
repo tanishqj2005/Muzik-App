@@ -6,7 +6,7 @@ const Player = (props) => {
   return (
     <View style={styles.screen}>
       <LinearGradient
-        colors={["#000", "#6d8207", "#cceb36"]}
+        colors={["#000", "#262e40", "#112757"]}
         style={styles.linearGradient}
       >
         <StatusBar backgroundColor="black" />
