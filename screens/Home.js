@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistItem from "../components/playlistItem";
 
+import { Audio } from "expo-av";
+
+const audioBookPlaylist = [
+  {
+    title: "Kasoor by Tanishq",
+    artist: "Tanishq",
+    source: "Device",
+    uri: "../data/sounds/kasoor.mp3",
+    imageSource: "../data/artworks/time.png",
+  },
+];
+
 const Home = (props) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackInstance, setPlaybackInstance] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [volume, setVolume] = useState(1.0);
+  const [isBuffering, setIsBuffering] = useState(false);
   const dispatch = useDispatch();
   const [selectedPlaylist, setSelectedPlaylist] = useState(1);
   const playlist = useSelector((state) => state.playlist.playlist);
@@ -16,6 +33,56 @@ const Home = (props) => {
   const sounds = allSounds.filter(
     (soundObj) => songs.findIndex((song) => song === soundObj.id) !== -1
   );
+  const onPlaybackStatusUpdate = (status) => {
+    setIsBuffering(status.isBuffering);
+  };
+  const handlePlayPause = async () => {
+    isPlaying
+      ? await playbackInstance.pauseAsync()
+      : await playbackInstance.playAsync();
+
+    setIsPlaying(!isPlaying);
+  };
+  const loadAudio = async () => {
+    try {
+      const playbackInstance1 = new Audio.Sound();
+
+      const status = {
+        shouldPlay: isPlaying,
+        volume,
+      };
+
+      playbackInstance1.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+      await playbackInstance1.loadAsync(
+        require("../data/sounds/kasoor.mp3"),
+        status,
+        false
+      );
+      setPlaybackInstance(playbackInstance1);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+          playsInSilentModeIOS: true,
+          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+          shouldDuckAndroid: true,
+          staysActiveInBackground: true,  
+          playThroughEarpieceAndroid: true,
+        });
+
+        loadAudio();
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    init();
+  }, []);
   return (
     <View style={styles.screen}>
       <LinearGradient
@@ -77,11 +144,20 @@ const Home = (props) => {
           data={sounds}
           keyExtractor={(item) => item.id}
           renderItem={(itemData) => (
-            <PlaylistItem artwork={itemData.item.artwork} artist={itemData.item.artist} title={itemData.item.title}/>
+            <PlaylistItem
+              artwork={itemData.item.artwork}
+              artist={itemData.item.artist}
+              title={itemData.item.title}
+            />
           )}
         />
         <View style={styles.play}>
-          <Button title="Play" color="#e6e612" onPress={() => props.navigation.navigate('PlayerScreen')}/>
+          <Button
+            title="Play"
+            color="#e6e612"
+            // onPress={() => props.navigation.navigate("PlayerScreen")}
+            onPress={handlePlayPause}
+          />
         </View>
       </LinearGradient>
     </View>
@@ -139,7 +215,7 @@ const styles = StyleSheet.create({
   play: {
     width: 80,
     height: 80,
-    bottom:-30
+    bottom: -30,
   },
 });
 
