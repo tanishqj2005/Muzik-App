@@ -1,33 +1,38 @@
 export const sounds = [
   {
     id: 1,
-    title: "Back to December",
-    artist: "Taylor Swift", 
-    artwork: require("./artworks/backToDecember.png"),
+    title: "Banjara",
+    artist: "Mohammed Irfan",
+    artwork: require("./artworks/banjara.jpg"),
+    source: require("./sounds/banjara.mp3"),
   },
   {
     id: 2,
     title: "Guzarish",
     artist: "Javed Ali",
     artwork: require("./artworks/guzarish.png"),
+    source: require("./sounds/guzarish.mp3"),
   },
   {
     id: 3,
-    title: "Perfect",
-    artist: "Ed Sheeran",
-    artwork: require("./artworks/perfect.png"),
+    title: "Qaafirana",
+    artist: "Arijit Singh",
+    artwork: require("./artworks/qafirana.jpg"),
+    source: require("./sounds/qafirana.mp3"),
   },
   {
     id: 4,
     title: "Roop Tera Mastana",
     artist: "Sanam",
     artwork: require("./artworks/roopTeraMastana.png"),
+    source: require("./sounds/roopTeraMastana.mp3"),
   },
   {
     id: 5,
-    title: "Time",
-    artist: "Pink Floyd",
-    artwork: require("./artworks/time.png"),
+    title: "Tera Hone Laga Hoon",
+    artist: "Atif Aslam",
+    artwork: require("./artworks/terahonelaga.jpg"),
+    source: require("./sounds/terahonelaga.mp3"),
   },
 ];
 
@@ -39,7 +44,7 @@ export const playlist = [
   },
   {
     id: 2,
-    title: "English",
+    title: "Relax",
     items: [1, 3, 5],
   },
   {

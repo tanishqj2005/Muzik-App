@@ -1,6 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, StatusBar } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import Slider from "@react-native-community/slider";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Player = (props) => {
   return (
@@ -10,7 +19,9 @@ const Player = (props) => {
         style={styles.linearGradient}
       >
         <StatusBar backgroundColor="black" />
-        <Text style={{color:"#fff", marginBottom:10}}>This is Player Screen !</Text>
+        <Text style={{ color: "#fff", marginBottom: 10 }}>
+          This is Player Screen !
+        </Text>
         <Button
           title="Home"
           onPress={() => props.navigation.navigate("HomeScreen")}

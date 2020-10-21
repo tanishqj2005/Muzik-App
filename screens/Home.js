@@ -16,22 +16,16 @@ import Play from "../components/Icons/play";
 
 import { Audio } from "expo-av";
 
-const audioBookPlaylist = [
-  {
-    title: "Kasoor by Tanishq",
-    artist: "Tanishq",
-    source: "Device",
-    uri: "../data/sounds/kasoor.mp3",
-    imageSource: "../data/artworks/time.png",
-  },
-];
-
 const Home = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [shouldPlay, setShouldPlay] = useState(false);
   const [playbackInstance, setPlaybackInstance] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [volume, setVolume] = useState(1.0);
   const [isBuffering, setIsBuffering] = useState(false);
+  const [position, setPosition] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [loopingType, setLoopingType] = useState(0);
   const dispatch = useDispatch();
   const [selectedPlaylist, setSelectedPlaylist] = useState(1);
   const playlist = useSelector((state) => state.playlist.playlist);
@@ -43,8 +37,26 @@ const Home = (props) => {
     (soundObj) => songs.findIndex((song) => song === soundObj.id) !== -1
   );
   const onPlaybackStatusUpdate = (status) => {
-    setIsBuffering(status.isBuffering);
+    if (status.isLoaded) {
+      setIsBuffering(status.isBuffering);
+      setPosition(status.positionMillis);
+      setDuration(status.durationMillis);
+      setIsPlaying(status.isPlaying);
+      setShouldPlay(status.shouldPlay);
+      setVolume(status.volume);
+      setLoopingType(status.isLooping ? 0 : 1);
+
+      // if (status.didJustFinish && !status.isLooping) {
+      //   this._advanceIndex(true);
+      //   this._updatePlaybackInstanceForIndex(true);
+      // }
+    } else {
+      if (status.error) {
+        console.log(`FATAL PLAYER ERROR: ${status.error}`);
+      }
+    }
   };
+
   const handlePlayPause = async () => {
     isPlaying
       ? await playbackInstance.pauseAsync()
@@ -62,7 +74,7 @@ const Home = (props) => {
       };
       playbackInstance1.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
       await playbackInstance1.loadAsync(
-        require("../data/sounds/roopTera.mp3"),
+        require("../data/sounds/banjara.mp3"),
         status,
         false
       );
@@ -76,12 +88,12 @@ const Home = (props) => {
       try {
         await Audio.setAudioModeAsync({
           allowsRecordingIOS: false,
-          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
           playsInSilentModeIOS: true,
-          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
           shouldDuckAndroid: true,
-          staysActiveInBackground: true,
-          playThroughEarpieceAndroid: true,
+          staysActiveInBackground: false,
+          playThroughEarpieceAndroid: false,
         });
 
         loadAudio();

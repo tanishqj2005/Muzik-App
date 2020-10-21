@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add expo-google-auth
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @react-naative-community/slider
 
 PATH: 
-  C:\Python\Python37\Scripts\;C:\Python\Python37\;C:\Python\Python38\Scripts\;C:\Python\Python38\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\MATLAB\R2019b\bin;C:\Python\Python38;C:\Program Files\Java\jdk-13.0.1\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Users\TANISHQ JOSHI\Downloads\;C:\Python\Python38\Scripts\;C:\Python\Python38\;C:\Users\TANISHQ JOSHI\AppData\Local\Microsoft\WindowsApps;C:\Users\TANISHQ JOSHI\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\4.2\bin;C:\Program Files\ffmpeg\bin;C:\Users\TANISHQ JOSHI\AppData\Roaming\npm;C:\Users\TANISHQ JOSHI\AppData\Local\Yarn\bin;C:\sqlite;C:\Program Files\heroku\bin;C:\Users\TANISHQ JOSHI\AppData\Local\GitHubDesktop\bin
+  C:\Python\Python37\Scripts\;C:\Python\Python37\;C:\Python\Python38\Scripts\;C:\Python\Python38\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\MATLAB\R2019b\bin;C:\Python\Python38;C:\Program Files\Java\jdk-13.0.1\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Users\TANISHQ JOSHI\Downloads\;C:\Program Files\OpenSSL\openssl-0.9.8k_X64\bin;C:\Python\Python38\Scripts\;C:\Python\Python38\;C:\Users\TANISHQ JOSHI\AppData\Local\Microsoft\WindowsApps;C:\Users\TANISHQ JOSHI\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\MongoDB\Server\4.2\bin;C:\Program Files\ffmpeg\bin;C:\Users\TANISHQ JOSHI\AppData\Roaming\npm;C:\Users\TANISHQ JOSHI\AppData\Local\Yarn\bin;C:\sqlite;C:\Program Files\heroku\bin;C:\Users\TANISHQ JOSHI\AppData\Local\GitHubDesktop\bin
 
 Yarn version: 
   1.22.4
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/expo-google-auth: Not found
+  Error: https://registry.yarnpkg.com/@react-naative-community%2fslider: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66096:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
       at Request.emit (events.js:310:20)
@@ -38,16 +38,16 @@ npm manifest:
     },
     "dependencies": {
       "@react-native-community/async-storage": "~1.12.0",
-      "@react-native-community/google-signin": "^4.0.3",
       "@react-native-community/masked-view": "0.1.10",
       "expo": "~39.0.2",
+      "expo-av": "~8.6.0",
+      "expo-google-app-auth": "^8.1.3",
       "expo-linear-gradient": "~8.3.0",
       "expo-status-bar": "~1.0.2",
       "react": "16.13.1",
       "react-dom": "16.13.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
       "react-native-gesture-handler": "~1.7.0",
-      "react-native-google-signin": "^2.1.1",
       "react-native-linear-gradient": "^2.5.6",
       "react-native-paper": "^4.2.0",
       "react-native-reanimated": "~1.13.0",
@@ -1350,11 +1350,6 @@ Lockfile:
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
   
-  "@react-native-community/google-signin@^4.0.3":
-    version "4.0.3"
-    resolved "https://registry.yarnpkg.com/@react-native-community/google-signin/-/google-signin-4.0.3.tgz#66fbdd469e5895ec787224334d480c1c867240e8"
-    integrity sha512-0RyMHAPTOejxXuHkcrVLJ9Co1hxG/b1shmtn29QSjZ9W8oLj23gyLhJI4jjca389jToVjr2HsXsDXfNU4CA2Uw==
-  
   "@react-native-community/masked-view@0.1.10":
     version "0.1.10"
     resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
@@ -2592,6 +2587,13 @@ Lockfile:
       snapdragon "^0.8.1"
       to-regex "^3.0.1"
   
+  expo-app-auth@~9.2.0:
+    version "9.2.0"
+    resolved "https://registry.yarnpkg.com/expo-app-auth/-/expo-app-auth-9.2.0.tgz#88868639f96c4fae973b86bd8712477e2db9dc2c"
+    integrity sha512-aRsRTfCfpuR8n8nO22WwwwTB7JhhJv7T9ZB5f68u6NN/FTF5CnhI3m5t0lawmirNSdmK+mGL0L+gvRyVyt1WLQ==
+    dependencies:
+      invariant "^2.2.4"
+  
   expo-asset@~8.2.0:
     version "8.2.0"
     resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.2.0.tgz#2f72491064c02d4de32e9187d474deb9cec33003"
@@ -2602,6 +2604,14 @@ Lockfile:
       md5-file "^3.2.3"
       path-browserify "^1.0.0"
       url-parse "^1.4.4"
+  
+  expo-av@~8.6.0:
+    version "8.6.0"
+    resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-8.6.0.tgz#ab434c05241c1dcdca0edd57acb03aa21a3e46cc"
+    integrity sha512-ZZJtCLCDigeDMu2fyv76Kyifu2quhTn6ViYjM2ku/HvFSvUxlb5kK9imuLog3kR+LRxeIiVS9F29r3PCOqI+rQ==
+    dependencies:
+      lodash "^4.17.15"
+      nullthrows "^1.1.0"
   
   expo-constants@~9.2.0:
     version "9.2.0"
@@ -2632,6 +2642,13 @@ Lockfile:
     dependencies:
       fbjs "1.0.0"
       fontfaceobserver "^2.1.0"
+  
+  expo-google-app-auth@^8.1.3:
+    version "8.1.3"
+    resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-8.1.3.tgz#ce576e0d080713459d97e6874c05f58f9008040e"
+    integrity sha512-qDq+yAJATwcBLek4FMEUPD5h3m3+tJN8VmDRW073eoNGM1fxJ6543vYpRssBCNU3CHSGyxZgz+lNoc9uL46Ttw==
+    dependencies:
+      expo-app-auth "~9.2.0"
   
   expo-keep-awake@~8.3.0:
     version "8.3.0"
@@ -4761,11 +4778,6 @@ Lockfile:
       hoist-non-react-statics "^2.3.1"
       invariant "^2.2.4"
       prop-types "^15.7.2"
-  
-  react-native-google-signin@^2.1.1:
-    version "2.1.1"
-    resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-2.1.1.tgz#4281940eee88602b0181dd49affdf8c92980c85c"
-    integrity sha512-6l3fiLdX/bfhh0BoxGq+jGkagFsO+mrE/eRV4+3/0k8+FDxO90vdPpQdDiwlM5vWXRxWthTzMM09/jHw+4cvNw==
   
   react-native-iphone-x-helper@^1.2.1:
     version "1.2.1"
