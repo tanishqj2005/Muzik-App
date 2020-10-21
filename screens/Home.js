@@ -4,14 +4,15 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Button,
   Image,
+  TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
 import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistItem from "../components/playlistItem";
+import Play from "../components/Icons/play";
 
 import { Audio } from "expo-av";
 
@@ -158,9 +159,6 @@ const Home = (props) => {
             />
           )}
         />
-        <View style={styles.play}>
-          <Button title="Play" color="#e6e612" onPress={handlePlayPause} />
-        </View>
         <View style={styles.nowPlaying}>
           <TouchableWithoutFeedback
             style={{ flex: 1 }}
@@ -169,20 +167,22 @@ const Home = (props) => {
             }}
           >
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Image
-                source={require("../data/artworks/roopTeraMastana.png")}
-                style={styles.artwork}
-              />
+              <Image source={sounds[0].artwork} style={styles.artwork} />
               <View style={{ flex: 1 }}>
-                <Text style={{ color: "#fff" }}>Roop Tera Mastana</Text>
+                <Text style={{ color: "#fff" }}>{sounds[0].title}</Text>
                 <Text
                   style={{ color: "rgb(82, 88, 94)" }}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
-                  Sanam
+                  {sounds[0].artist}
                 </Text>
               </View>
+              <TouchableOpacity onPress={handlePlayPause}>
+                <View style={styles.play}>
+                  <Play />
+                </View>
+              </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -239,11 +239,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 30,
   },
-  play: {
-    width: 80,
-    height: 80,
-    bottom: 40,
-  },
   nowPlaying: {
     height: 70,
     borderBottomWidth: 0.5,
@@ -253,13 +248,19 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     backgroundColor: "black",
-    borderTopColor:'white',
-    borderTopWidth:2
+    borderTopColor: "white",
+    borderTopWidth: 2,
   },
   artwork: {
     width: 60,
     height: 50,
     marginRight: 15,
+  },
+  play: {
+    width: 50,
+    height: 50,
+    padding: 5,
+    paddingLeft: 20,
   },
 });
 
