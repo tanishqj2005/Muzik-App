@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Button,
+  Image,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,10 +59,9 @@ const Home = (props) => {
         shouldPlay: isPlaying,
         volume,
       };
-
       playbackInstance1.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
       await playbackInstance1.loadAsync(
-        require("../data/sounds/kasoor.mp3"),
+        require("../data/sounds/roopTera.mp3"),
         status,
         false
       );
@@ -72,7 +79,7 @@ const Home = (props) => {
           playsInSilentModeIOS: true,
           interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
           shouldDuckAndroid: true,
-          staysActiveInBackground: true,  
+          staysActiveInBackground: true,
           playThroughEarpieceAndroid: true,
         });
 
@@ -152,12 +159,32 @@ const Home = (props) => {
           )}
         />
         <View style={styles.play}>
-          <Button
-            title="Play"
-            color="#e6e612"
-            // onPress={() => props.navigation.navigate("PlayerScreen")}
-            onPress={handlePlayPause}
-          />
+          <Button title="Play" color="#e6e612" onPress={handlePlayPause} />
+        </View>
+        <View style={styles.nowPlaying}>
+          <TouchableWithoutFeedback
+            style={{ flex: 1 }}
+            onPress={() => {
+              props.navigation.navigate("PlayerScreen");
+            }}
+          >
+            <View style={{ flex: 1, flexDirection: "row" }}>
+              <Image
+                source={require("../data/artworks/roopTeraMastana.png")}
+                style={styles.artwork}
+              />
+              <View style={{ flex: 1 }}>
+                <Text style={{ color: "#fff" }}>Roop Tera Mastana</Text>
+                <Text
+                  style={{ color: "rgb(82, 88, 94)" }}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
+                  Sanam
+                </Text>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </LinearGradient>
     </View>
@@ -215,7 +242,24 @@ const styles = StyleSheet.create({
   play: {
     width: 80,
     height: 80,
-    bottom: -30,
+    bottom: 40,
+  },
+  nowPlaying: {
+    height: 70,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#bbb",
+    padding: 10,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "black",
+    borderTopColor:'white',
+    borderTopWidth:2
+  },
+  artwork: {
+    width: 60,
+    height: 50,
+    marginRight: 15,
   },
 });
 
