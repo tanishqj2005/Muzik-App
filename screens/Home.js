@@ -13,21 +13,22 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistItem from "../components/playlistItem";
 import Play from "../components/Icons/play";
+import { setPlaybackInstance, setPlayPause } from "../store/actions/track";
 
 import { Audio } from "expo-av";
 
 const Home = (props) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [shouldPlay, setShouldPlay] = useState(false);
-  const [playbackInstance, setPlaybackInstance] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [volume, setVolume] = useState(1.0);
-  const [isBuffering, setIsBuffering] = useState(false);
-  const [position, setPosition] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [loopingType, setLoopingType] = useState(0);
+  // const [shouldPlay, setShouldPlay] = useState(false);
+  const playbackInstance = useSelector((state) => state.track.playbackInstance);
+  const isPlaying = useSelector((state) => state.track.isPlaying);
+  const selectedPlaylist = useSelector((state) => state.track.selectedPlaylist);
+  const volume = useSelector((state) => state.track.volume);
+  // const [currentIndex, setCurrentIndex] = useState(0);
+  // const [isBuffering, setIsBuffering] = useState(false);
+  // const [position, setPosition] = useState(0);
+  // const [duration, setDuration] = useState(0);
+  // const [loopingType, setLoopingType] = useState(0);
   const dispatch = useDispatch();
-  const [selectedPlaylist, setSelectedPlaylist] = useState(1);
   const playlist = useSelector((state) => state.playlist.playlist);
   const songs = playlist.filter(
     (playlistitem) => playlistitem.id === selectedPlaylist
@@ -38,14 +39,13 @@ const Home = (props) => {
   );
   const onPlaybackStatusUpdate = (status) => {
     if (status.isLoaded) {
-      setIsBuffering(status.isBuffering);
-      setPosition(status.positionMillis);
-      setDuration(status.durationMillis);
-      setIsPlaying(status.isPlaying);
-      setShouldPlay(status.shouldPlay);
-      setVolume(status.volume);
-      setLoopingType(status.isLooping ? 0 : 1);
-
+      //   setIsBuffering(status.isBuffering);
+      //   setPosition(status.positionMillis);
+      //   setDuration(status.durationMillis);
+      //   setIsPlaying(status.isPlaying);
+      //   setShouldPlay(status.shouldPlay);
+      //   setVolume(status.volume);
+      //   setLoopingType(status.isLooping ? 0 : 1);
       // if (status.didJustFinish && !status.isLooping) {
       //   this._advanceIndex(true);
       //   this._updatePlaybackInstanceForIndex(true);
@@ -61,15 +61,14 @@ const Home = (props) => {
     isPlaying
       ? await playbackInstance.pauseAsync()
       : await playbackInstance.playAsync();
-
-    setIsPlaying(!isPlaying);
+    dispatch(setPlayPause(!isPlaying));
   };
   const loadAudio = async () => {
     try {
       const playbackInstance1 = new Audio.Sound();
 
       const status = {
-        shouldPlay: isPlaying,
+        shouldPlay: true,
         volume,
       };
       playbackInstance1.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
@@ -78,7 +77,7 @@ const Home = (props) => {
         status,
         false
       );
-      setPlaybackInstance(playbackInstance1);
+      dispatch(setPlaybackInstance(playbackInstance1));
     } catch (e) {
       console.log(e);
     }
@@ -96,7 +95,7 @@ const Home = (props) => {
           playThroughEarpieceAndroid: false,
         });
 
-        loadAudio();
+        await loadAudio();
       } catch (e) {
         console.log(e);
       }
@@ -145,7 +144,7 @@ const Home = (props) => {
             keyExtractor={(item) => item.id}
             renderItem={(itemData) => (
               <Text
-                onPress={() => setSelectedPlaylist(itemData.item.id)}
+                onPress={() => dispatch(setSelectedPlaylist(itemData.item.id))}
                 style={{
                   marginHorizontal: 25,
                   color:

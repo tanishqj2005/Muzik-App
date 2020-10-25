@@ -6,10 +6,12 @@ import ReduxThunk from "redux-thunk";
 
 import AuthReducer from "./store/reducers/auth";
 import PlaylistReducer from "./store/reducers/playlist";
+import TrackReducer from "./store/reducers/track";
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
   playlist: PlaylistReducer,
+  track: TrackReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
