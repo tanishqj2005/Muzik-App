@@ -13,7 +13,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistItem from "../components/playlistItem";
 import Play from "../components/Icons/play";
-import { setPlaybackInstance, setPlayPause } from "../store/actions/track";
+import {
+  setPlaybackInstance,
+  setPlayPause,
+  setSelectedPlaylist,
+} from "../store/actions/track";
 
 import { Audio } from "expo-av";
 
@@ -56,6 +60,10 @@ const Home = (props) => {
       }
     }
   };
+
+  const selectthis = (id) => {
+    dispatch(setSelectedPlaylist(id));
+  }
 
   const handlePlayPause = async () => {
     isPlaying
@@ -144,7 +152,8 @@ const Home = (props) => {
             keyExtractor={(item) => item.id}
             renderItem={(itemData) => (
               <Text
-                onPress={() => dispatch(setSelectedPlaylist(itemData.item.id))}
+                onPress={() => selectthis(itemData.item.id)}
+                // onPress={() => dispatch(setSelectedPlaylist(itemData.item.id))}
                 style={{
                   marginHorizontal: 25,
                   color:

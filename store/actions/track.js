@@ -21,7 +21,7 @@ export const setPlayPause = (isPlaying) => {
 export const setSelectedPlaylist = (playlistId) => {
   return async (dispatch) => {
     dispatch({
-      type: SET_ISPLAYING,
+      type: SET_SELECTED_PLAYLIST,
       playlistId,
     });
   };

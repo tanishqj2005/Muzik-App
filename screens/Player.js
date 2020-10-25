@@ -18,7 +18,6 @@ const Player = (props) => {
         colors={["#000", "#262e40", "#112757"]}
         style={styles.linearGradient}
       >
-        <StatusBar backgroundColor="black" />
         <Text style={{ color: "#fff", marginBottom: 10 }}>
           This is Player Screen !
         </Text>
