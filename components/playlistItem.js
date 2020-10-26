@@ -16,11 +16,11 @@ export default function Item({ artwork, title, artist }) {
           {artist}
         </Text>
       </View>
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <View style={styles.play}>
           <Play />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

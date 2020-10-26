@@ -13,6 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import PlaylistItem from "../components/playlistItem";
 import Play from "../components/Icons/play";
+import Pause from "../components/Icons/pause";
 import {
   setPlaybackInstance,
   setPlayPause,
@@ -62,8 +63,9 @@ const Home = (props) => {
   };
 
   const selectthis = (id) => {
+    dispatch(setPlayPause(false));
     dispatch(setSelectedPlaylist(id));
-  }
+  };
 
   const handlePlayPause = async () => {
     isPlaying
@@ -73,18 +75,17 @@ const Home = (props) => {
   };
   const loadAudio = async () => {
     try {
+      if (playbackInstance != null) {
+        playbackInstance.unloadAsync();
+      }
       const playbackInstance1 = new Audio.Sound();
 
       const status = {
-        shouldPlay: true,
+        shouldPlay: false,
         volume,
       };
       playbackInstance1.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-      await playbackInstance1.loadAsync(
-        require("../data/sounds/banjara.mp3"),
-        status,
-        false
-      );
+      await playbackInstance1.loadAsync(sounds[0].source, status, false);
       dispatch(setPlaybackInstance(playbackInstance1));
     } catch (e) {
       console.log(e);
@@ -102,14 +103,16 @@ const Home = (props) => {
           staysActiveInBackground: false,
           playThroughEarpieceAndroid: false,
         });
-
-        await loadAudio();
+        // await loadAudio();
       } catch (e) {
         console.log(e);
       }
     };
     init();
   }, []);
+  useEffect(() => {
+    loadAudio();
+  }, [selectedPlaylist]);
   return (
     <View style={styles.screen}>
       <LinearGradient
@@ -200,7 +203,7 @@ const Home = (props) => {
               </View>
               <TouchableOpacity onPress={handlePlayPause}>
                 <View style={styles.play}>
-                  <Play />
+                  {isPlaying ? <Pause /> : <Play />}
                 </View>
               </TouchableOpacity>
             </View>

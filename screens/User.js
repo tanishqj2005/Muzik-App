@@ -6,7 +6,7 @@ import {
   Image,
   ScrollView,
   Button,
-  FlatList
+  FlatList,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,10 +15,12 @@ import { logout } from "../store/actions/auth";
 
 const User = (props) => {
   const userName = useSelector((state) => state.auth.userName);
+  const playbackInstance = useSelector((state) => state.track.playbackInstance);
   const userPhotoUri = useSelector((state) => state.auth.userPhoto);
   const likedSongs = useSelector((state) => state.playlist.likedSongs);
   const dispatch = useDispatch();
   const logoutHandler = () => {
+    playbackInstance.unloadAsync();
     dispatch(logout());
     props.navigation.navigate("Auth");
   };
