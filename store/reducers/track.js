@@ -2,6 +2,7 @@ import {
   SET_PLAYBACK_INSTANCE,
   SET_ISPLAYING,
   SET_SELECTED_PLAYLIST,
+  TRACK_UPDATE,
 } from "../actions/track";
 
 const initialState = {
@@ -34,6 +35,17 @@ export default (state = initialState, action) => {
         ...state,
         selectedPlaylist: action.playlistId,
       };
+    case TRACK_UPDATE:
+      return {
+        ...state,
+        isPlaying: action.isPlaying,
+        isBuffering: action.isBuffering,
+        shouldPlay: action.shouldPlay,
+        position: action.positionMillis,
+        duration: action.durationMillis,
+        volume: action.volume,
+        loopingType: action.loopingType
+      }
     default:
       return state;
   }

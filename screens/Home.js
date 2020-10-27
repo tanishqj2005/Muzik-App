@@ -18,21 +18,17 @@ import {
   setPlaybackInstance,
   setPlayPause,
   setSelectedPlaylist,
+  trackUpdate,
 } from "../store/actions/track";
 
 import { Audio } from "expo-av";
 
 const Home = (props) => {
-  // const [shouldPlay, setShouldPlay] = useState(false);
   const playbackInstance = useSelector((state) => state.track.playbackInstance);
   const isPlaying = useSelector((state) => state.track.isPlaying);
+  const currentIndex = useSelector((state) => state.track.currentIndex);
   const selectedPlaylist = useSelector((state) => state.track.selectedPlaylist);
   const volume = useSelector((state) => state.track.volume);
-  // const [currentIndex, setCurrentIndex] = useState(0);
-  // const [isBuffering, setIsBuffering] = useState(false);
-  // const [position, setPosition] = useState(0);
-  // const [duration, setDuration] = useState(0);
-  // const [loopingType, setLoopingType] = useState(0);
   const dispatch = useDispatch();
   const playlist = useSelector((state) => state.playlist.playlist);
   const songs = playlist.filter(
@@ -44,13 +40,18 @@ const Home = (props) => {
   );
   const onPlaybackStatusUpdate = (status) => {
     if (status.isLoaded) {
-      //   setIsBuffering(status.isBuffering);
-      //   setPosition(status.positionMillis);
-      //   setDuration(status.durationMillis);
-      //   setIsPlaying(status.isPlaying);
-      //   setShouldPlay(status.shouldPlay);
-      //   setVolume(status.volume);
-      //   setLoopingType(status.isLooping ? 0 : 1);
+      const lType = status.isLooping ? 0 : 1;
+      dispatch(
+        trackUpdate(
+          status.isBuffering,
+          status.positionMillis,
+          status.durationMillis,
+          status.isPlaying,
+          status.shouldPlay,
+          status.volume,
+          lType
+        )
+      );
       // if (status.didJustFinish && !status.isLooping) {
       //   this._advanceIndex(true);
       //   this._updatePlaybackInstanceForIndex(true);
@@ -85,7 +86,11 @@ const Home = (props) => {
         volume,
       };
       playbackInstance1.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
-      await playbackInstance1.loadAsync(sounds[0].source, status, false);
+      await playbackInstance1.loadAsync(
+        sounds[currentIndex].source,
+        status,
+        false
+      );
       dispatch(setPlaybackInstance(playbackInstance1));
     } catch (e) {
       console.log(e);
@@ -103,7 +108,6 @@ const Home = (props) => {
           staysActiveInBackground: false,
           playThroughEarpieceAndroid: false,
         });
-        // await loadAudio();
       } catch (e) {
         console.log(e);
       }
@@ -156,7 +160,6 @@ const Home = (props) => {
             renderItem={(itemData) => (
               <Text
                 onPress={() => selectthis(itemData.item.id)}
-                // onPress={() => dispatch(setSelectedPlaylist(itemData.item.id))}
                 style={{
                   marginHorizontal: 25,
                   color:
@@ -190,15 +193,20 @@ const Home = (props) => {
             }}
           >
             <View style={{ flex: 1, flexDirection: "row" }}>
-              <Image source={sounds[0].artwork} style={styles.artwork} />
+              <Image
+                source={sounds[currentIndex].artwork}
+                style={styles.artwork}
+              />
               <View style={{ flex: 1 }}>
-                <Text style={{ color: "#fff" }}>{sounds[0].title}</Text>
+                <Text style={{ color: "#fff" }}>
+                  {sounds[currentIndex].title}
+                </Text>
                 <Text
                   style={{ color: "rgb(82, 88, 94)" }}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
-                  {sounds[0].artist}
+                  {sounds[currentIndex].artist}
                 </Text>
               </View>
               <TouchableOpacity onPress={handlePlayPause}>
