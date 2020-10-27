@@ -19,6 +19,7 @@ import {
   setPlayPause,
   setSelectedPlaylist,
   trackUpdate,
+  indexUpdate,
 } from "../store/actions/track";
 
 import { Audio } from "expo-av";
@@ -52,10 +53,13 @@ const Home = (props) => {
           lType
         )
       );
-      // if (status.didJustFinish && !status.isLooping) {
-      //   this._advanceIndex(true);
-      //   this._updatePlaybackInstanceForIndex(true);
-      // }
+      if (status.didJustFinish && !status.isLooping) {
+        let newIndex = currentIndex + 1;
+        if (newIndex >= sounds.length) {
+          newIndex = newIndex - sounds.length;
+        }
+        dispatch(indexUpdate(newIndex));
+      }
     } else {
       if (status.error) {
         console.log(`FATAL PLAYER ERROR: ${status.error}`);
@@ -65,6 +69,7 @@ const Home = (props) => {
 
   const selectthis = (id) => {
     dispatch(setPlayPause(false));
+    dispatch(indexUpdate(0));
     dispatch(setSelectedPlaylist(id));
   };
 
@@ -105,7 +110,7 @@ const Home = (props) => {
           playsInSilentModeIOS: true,
           interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
           shouldDuckAndroid: true,
-          staysActiveInBackground: false,
+          staysActiveInBackground: true,
           playThroughEarpieceAndroid: false,
         });
       } catch (e) {
@@ -116,7 +121,7 @@ const Home = (props) => {
   }, []);
   useEffect(() => {
     loadAudio();
-  }, [selectedPlaylist]);
+  }, [selectedPlaylist, currentIndex]);
   return (
     <View style={styles.screen}>
       <LinearGradient

@@ -3,6 +3,7 @@ import {
   SET_ISPLAYING,
   SET_SELECTED_PLAYLIST,
   TRACK_UPDATE,
+  INDEX_UPDATE,
 } from "../actions/track";
 
 const initialState = {
@@ -35,6 +36,11 @@ export default (state = initialState, action) => {
         ...state,
         selectedPlaylist: action.playlistId,
       };
+    case INDEX_UPDATE:
+      return {
+        ...state,
+        currentIndex: action.newIndex,
+      };
     case TRACK_UPDATE:
       return {
         ...state,
@@ -44,8 +50,8 @@ export default (state = initialState, action) => {
         position: action.positionMillis,
         duration: action.durationMillis,
         volume: action.volume,
-        loopingType: action.loopingType
-      }
+        loopingType: action.loopingType,
+      };
     default:
       return state;
   }

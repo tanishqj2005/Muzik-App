@@ -40,7 +40,7 @@ export const playlist = [
   {
     id: 1,
     title: "Bollywood",
-    items: [2, 4],
+    items: [4, 5],
   },
   {
     id: 2,
