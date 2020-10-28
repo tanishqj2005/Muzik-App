@@ -1,27 +1,22 @@
-import React from "react";
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Button,
-} from "react-native";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import Play from "../components/Icons/play";
 import Pause from "../components/Icons/pause";
 import Skip from "../components/Icons/Skip";
 import { setPlayPause, trackUpdate, indexUpdate } from "../store/actions/track";
-
-import { Audio } from "expo-av";
+import Slider from "@react-native-community/slider";
+// import { Audio } from "expo-av";
 
 const Player = (props) => {
   const playbackInstance = useSelector((state) => state.track.playbackInstance);
   const isPlaying = useSelector((state) => state.track.isPlaying);
   const currentIndex = useSelector((state) => state.track.currentIndex);
+  const position = useSelector((state) => state.track.position);
+  const duration = useSelector((state) => state.track.duration);
   const selectedPlaylist = useSelector((state) => state.track.selectedPlaylist);
+  const [isSeeking, setIsSeeking] = useState(false);
   // const volume = useSelector((state) => state.track.volume);
   const dispatch = useDispatch();
   const playlist = useSelector((state) => state.playlist.playlist);
@@ -52,6 +47,48 @@ const Player = (props) => {
     }
     dispatch(indexUpdate(newIndex));
   };
+  const getSliderPosition = () => {
+    if (playbackInstance != null && position != null && duration != null) {
+      return position / duration;
+    }
+    return 0;
+  };
+  const onSeekSliderValueChange = (value) => {
+    if (playbackInstance != null && !isSeeking) {
+      setIsSeeking(true);
+      playbackInstance.pauseAsync();
+    }
+  };
+  const onSeekSliderSlidingComplete = async (value) => {
+    if (playbackInstance != null) {
+      setIsSeeking(false);
+      const seekPosition = value * duration;
+      playbackInstance.playFromPositionAsync(seekPosition);
+    }
+  };
+  const _getMMSSFromMillis = (millis) => {
+    const totalSeconds = millis / 1000;
+    const seconds = Math.floor(totalSeconds % 60);
+    const minutes = Math.floor(totalSeconds / 60);
+
+    const padWithZero = (number) => {
+      const string = number.toString();
+      if (number < 10) {
+        return "0" + string;
+      }
+      return string;
+    };
+    return padWithZero(minutes) + ":" + padWithZero(seconds);
+  };
+
+  const getTimestamp = () => {
+    if (playbackInstance != null && position != null && duration != null) {
+      return `${_getMMSSFromMillis(position)} / ${_getMMSSFromMillis(
+        duration
+      )}`;
+    }
+    return "";
+  };
   return (
     <View style={styles.screen}>
       <LinearGradient
@@ -62,7 +99,17 @@ const Player = (props) => {
       <Text style={styles.songtitle1}>{sounds[currentIndex].title}</Text>
       <Text style={styles.songartist1}>{sounds[currentIndex].artist}</Text>
       <Text style={styles.header2}>{playlist[selectedPlaylist - 1].title}</Text>
+      <Text style={styles.time}>{getTimestamp()}</Text>
       <Image style={styles.mainImg} source={sounds[currentIndex].artwork} />
+      <Slider
+        style={styles.playbackSlider}
+        value={getSliderPosition()}
+        onValueChange={onSeekSliderValueChange}
+        onSlidingComplete={onSeekSliderSlidingComplete}
+        minimumTrackTintColor="#69f542"
+        maximumTrackTintColor="#bbb"
+        thumbTintColor="#fff"
+      />
       <TouchableOpacity onPress={handlePlayPause} style={styles.play}>
         <View>{isPlaying ? <Pause /> : <Play />}</View>
       </TouchableOpacity>
@@ -107,7 +154,7 @@ const styles = StyleSheet.create({
   songtitle1: {
     position: "absolute",
     bottom: 239,
-    left:15,
+    left: 15,
     margin: 6,
     backgroundColor: "transparent",
     color: "#fff",
@@ -116,7 +163,7 @@ const styles = StyleSheet.create({
   songartist1: {
     position: "absolute",
     bottom: 239,
-    right:15,
+    right: 15,
     margin: 6,
     backgroundColor: "transparent",
     color: "#bfb8a3",
@@ -172,6 +219,24 @@ const styles = StyleSheet.create({
     left: 80,
     zIndex: 30,
     transform: [{ rotate: "180deg" }],
+  },
+  playbackSlider: {
+    alignSelf: "stretch",
+    position: "absolute",
+    bottom: 178,
+    left: 20,
+    zIndex: 40,
+    width: "90%",
+    color: "white",
+  },
+  time: {
+    position: "absolute",
+    bottom: 194,
+    right: 25,
+    margin: 6,
+    backgroundColor: "transparent",
+    color: "#fff",
+    fontSize: 14,
   },
 });
 
