@@ -1,7 +1,7 @@
 export const sounds = [
   {
     id: 1,
-    title: "Banjara",
+    title: "Banjaara",
     artist: "Mohammed Irfan",
     artwork: require("./artworks/banjara.jpg"),
     source: require("./sounds/banjara.mp3"),

@@ -4,7 +4,7 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
   Button,
 } from "react-native";
@@ -12,13 +12,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import Play from "../components/Icons/play";
 import Pause from "../components/Icons/pause";
-import {
-  setPlaybackInstance,
-  setPlayPause,
-  setSelectedPlaylist,
-  trackUpdate,
-  indexUpdate,
-} from "../store/actions/track";
+import Skip from "../components/Icons/Skip";
+import { setPlayPause, trackUpdate, indexUpdate } from "../store/actions/track";
 
 import { Audio } from "expo-av";
 
@@ -37,15 +32,50 @@ const Player = (props) => {
   const sounds = allSounds.filter(
     (soundObj) => songs.findIndex((song) => song === soundObj.id) !== -1
   );
+  const handlePlayPause = async () => {
+    isPlaying
+      ? await playbackInstance.pauseAsync()
+      : await playbackInstance.playAsync();
+    dispatch(setPlayPause(!isPlaying));
+  };
+  const handleIndexUpdate = () => {
+    let newIndex = currentIndex + 1;
+    if (newIndex >= sounds.length) {
+      newIndex = newIndex - sounds.length;
+    }
+    dispatch(indexUpdate(newIndex));
+  };
+  const handleIndexUpdatePrev = () => {
+    let newIndex = currentIndex - 1;
+    if (newIndex < 0) {
+      newIndex = newIndex + sounds.length;
+    }
+    dispatch(indexUpdate(newIndex));
+  };
   return (
     <View style={styles.screen}>
       <LinearGradient
-        colors={["#000", "#262e40", "#112757"]}
+        colors={["#000", "#993608", "#b07053"]}
         style={styles.linearGradient}
       ></LinearGradient>
-      <Text style={styles.header1}>PLAYING  FROM  PLAYLIST</Text>
+      <Text style={styles.header1}>PLAYING FROM PLAYLIST</Text>
+      <Text style={styles.songtitle1}>{sounds[currentIndex].title}</Text>
+      <Text style={styles.songartist1}>{sounds[currentIndex].artist}</Text>
       <Text style={styles.header2}>{playlist[selectedPlaylist - 1].title}</Text>
-      <Image style={styles.mainImg} source={sounds[currentIndex].artwork}/>
+      <Image style={styles.mainImg} source={sounds[currentIndex].artwork} />
+      <TouchableOpacity onPress={handlePlayPause} style={styles.play}>
+        <View>{isPlaying ? <Pause /> : <Play />}</View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleIndexUpdate} style={styles.skip}>
+        <View>
+          <Skip />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleIndexUpdatePrev} style={styles.skipPrev}>
+        <View>
+          <Skip />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -72,7 +102,25 @@ const styles = StyleSheet.create({
     margin: 6,
     backgroundColor: "transparent",
     color: "#48c210",
-    fontSize:16
+    fontSize: 16,
+  },
+  songtitle1: {
+    position: "absolute",
+    bottom: 239,
+    left:15,
+    margin: 6,
+    backgroundColor: "transparent",
+    color: "#fff",
+    fontSize: 18,
+  },
+  songartist1: {
+    position: "absolute",
+    bottom: 239,
+    right:15,
+    margin: 6,
+    backgroundColor: "transparent",
+    color: "#bfb8a3",
+    fontSize: 17,
   },
   header2: {
     position: "absolute",
@@ -82,18 +130,49 @@ const styles = StyleSheet.create({
     margin: 6,
     backgroundColor: "transparent",
     color: "#bfb8a3",
-    fontSize:17
+    fontSize: 17,
   },
-  mainImg:{
-    position:'absolute',
-    top:90,
-    left:43,
-    height:300,
-    width:300,
-    borderColor:'#a80a3f',
-    borderWidth:2,
-    borderRadius:12
-  }
+  mainImg: {
+    position: "absolute",
+    top: 90,
+    left: 43,
+    height: 300,
+    width: 300,
+    borderColor: "#a80a3f",
+    borderWidth: 2,
+    borderRadius: 12,
+  },
+  play: {
+    width: 80,
+    height: 80,
+    padding: 5,
+    paddingLeft: 20,
+    position: "absolute",
+    bottom: 90,
+    left: 148,
+    zIndex: 30,
+  },
+  skip: {
+    width: 70,
+    height: 70,
+    padding: 5,
+    paddingLeft: 20,
+    position: "absolute",
+    bottom: 95,
+    left: 240,
+    zIndex: 30,
+  },
+  skipPrev: {
+    width: 70,
+    height: 70,
+    padding: 5,
+    paddingLeft: 20,
+    position: "absolute",
+    bottom: 95,
+    left: 80,
+    zIndex: 30,
+    transform: [{ rotate: "180deg" }],
+  },
 });
 
 export default Player;
