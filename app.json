@@ -17,10 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tanishqj2005.Muzik"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "android": {
+      "package": "com.tanishqj2005.Muzik"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
