@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Play from "../components/Icons/play";
 import Pause from "../components/Icons/pause";
 import Skip from "../components/Icons/Skip";
-import { setPlayPause, trackUpdate, indexUpdate } from "../store/actions/track";
+import Replay from "../components/Icons/Replay";
+import { setPlayPause, indexUpdate } from "../store/actions/track";
 import Slider from "@react-native-community/slider";
 // import { Audio } from "expo-av";
 
@@ -16,6 +17,8 @@ const Player = (props) => {
   const position = useSelector((state) => state.track.position);
   const duration = useSelector((state) => state.track.duration);
   const selectedPlaylist = useSelector((state) => state.track.selectedPlaylist);
+  const loopingType = useSelector((state) => state.track.loopingType);
+  const isLooping = loopingType === 0;
   const [isSeeking, setIsSeeking] = useState(false);
   // const volume = useSelector((state) => state.track.volume);
   const dispatch = useDispatch();
@@ -59,11 +62,19 @@ const Player = (props) => {
       playbackInstance.pauseAsync();
     }
   };
+  const selectFill = (bool) => {
+    return bool ? "#25e628" : "rgb(255, 255, 255)";
+  };
   const onSeekSliderSlidingComplete = async (value) => {
     if (playbackInstance != null) {
       setIsSeeking(false);
       const seekPosition = value * duration;
       playbackInstance.playFromPositionAsync(seekPosition);
+    }
+  };
+  const onLoopPressed = () => {
+    if (playbackInstance != null) {
+      playbackInstance.setIsLoopingAsync(loopingType !== 0);
     }
   };
   const _getMMSSFromMillis = (millis) => {
@@ -121,6 +132,11 @@ const Player = (props) => {
       <TouchableOpacity onPress={handleIndexUpdatePrev} style={styles.skipPrev}>
         <View>
           <Skip />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onLoopPressed} style={styles.replay}>
+        <View>
+          <Replay fill={selectFill(isLooping)} />
         </View>
       </TouchableOpacity>
     </View>
@@ -219,6 +235,16 @@ const styles = StyleSheet.create({
     left: 80,
     zIndex: 30,
     transform: [{ rotate: "180deg" }],
+  },
+  replay: {
+    width: 70,
+    height: 70,
+    padding: 5,
+    paddingLeft: 20,
+    position: "absolute",
+    bottom: 17,
+    left: 152,
+    zIndex: 30,
   },
   playbackSlider: {
     alignSelf: "stretch",
