@@ -34,6 +34,13 @@ export const sounds = [
     artwork: require("./artworks/terahonelaga.jpg"),
     source: require("./sounds/terahonelaga.mp3"),
   },
+  {
+    id: 6,
+    title: "Jo Bhi Main",
+    artist: "Mohit Chauhan",
+    artwork: require("./artworks/jobhimain.jpg"),
+    source: require("./sounds/jobhimain.mp3"),
+  },
 ];
 
 export const playlist = [
