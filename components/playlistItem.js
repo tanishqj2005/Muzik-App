@@ -1,8 +1,10 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import Play from "./Icons/play";
+import { View, Text, Image, TouchableOpacity, Button } from "react-native";
+import { useDispatch } from "react-redux";
+import { likeASong } from "../store/actions/playlist";
 
-export default function Item({ artwork, title, artist }) {
+export default function Item({ artwork, title, artist, songId }) {
+  const dispatch = useDispatch();
   return (
     <View style={styles.item}>
       <Image source={artwork} style={styles.artwork} />
@@ -16,11 +18,11 @@ export default function Item({ artwork, title, artist }) {
           {artist}
         </Text>
       </View>
-      {/* <TouchableOpacity>
+      <TouchableOpacity>
         <View style={styles.play}>
-          <Play />
+          <Button title="Like" onPress={() => dispatch(likeASong(songId))} />
         </View>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 }
@@ -39,7 +41,7 @@ const styles = {
     marginRight: 15,
   },
   play: {
-    width: 50,
+    width: 80,
     height: 50,
     padding: 5,
     paddingLeft: 20,

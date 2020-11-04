@@ -26,7 +26,8 @@ export default function Auth({ navigation }) {
           authenticate(
             result.accessToken,
             result.user.givenName,
-            result.user.photoUrl
+            result.user.photoUrl,
+            result.user.id
           )
         );
         navigation.navigate("MuzikMain", {

@@ -3,7 +3,7 @@ export const LOGOUT = "LOGOUT";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
-export const authenticate = (token, userName, userPhoto) => {
+export const authenticate = (token, userName, userPhoto, userId) => {
   return async (dispatch) => {
     await AsyncStorage.setItem(
       "userDataMuzikApp",
@@ -11,6 +11,7 @@ export const authenticate = (token, userName, userPhoto) => {
         token: token,
         userName: userName,
         userPhoto: userPhoto,
+        userId,
       })
     );
     dispatch({
@@ -18,6 +19,7 @@ export const authenticate = (token, userName, userPhoto) => {
       userName,
       token,
       userPhoto,
+      userId,
     });
   };
 };

@@ -4,6 +4,7 @@ const initialState = {
   token: null,
   userName: null,
   userPhoto: null,
+  userId: null,
 };
 
 export default (state = initialState, action) => {
@@ -13,9 +14,10 @@ export default (state = initialState, action) => {
         token: action.token,
         userName: action.userName,
         userPhoto: action.userPhoto,
+        userId: action.userId,
       };
     case LOGOUT:
-      return initialState;
+      return initialState;  
     default:
       return state;
   }

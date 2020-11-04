@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,7 @@ import {
   trackUpdate,
   indexUpdate,
 } from "../store/actions/track";
+import { fetchLikedSongs } from "../store/actions/playlist";
 
 import { Audio } from "expo-av";
 
@@ -36,9 +37,13 @@ const Home = (props) => {
     (playlistitem) => playlistitem.id === selectedPlaylist
   )[0].items;
   const allSounds = useSelector((state) => state.playlist.sounds);
+  const likedSounds = useSelector((state) => state.playlist.likedSongs);
   const sounds = allSounds.filter(
     (soundObj) => songs.findIndex((song) => song === soundObj.id) !== -1
   );
+  useEffect(() => {
+    dispatch(fetchLikedSongs());
+  }, [likedSounds]);
   const onPlaybackStatusUpdate = (status) => {
     if (status.isLoaded) {
       const lType = status.isLooping ? 0 : 1;
@@ -187,6 +192,7 @@ const Home = (props) => {
               artwork={itemData.item.artwork}
               artist={itemData.item.artist}
               title={itemData.item.title}
+              songId={itemData.item.id}
             />
           )}
         />
